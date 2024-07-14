@@ -1,0 +1,4 @@
+# crusty-rustacean - Trunk build tool configuration
+[build]
+target = "index.html"
+dist = "../dist"

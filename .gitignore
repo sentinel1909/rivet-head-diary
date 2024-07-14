@@ -1,0 +1,19 @@
+# rivet-head-diary gitignore configuration
+
+# OS related
+site/.DS_Store
+site/assets/.DS_Store
+
+# VS Code Settings
+.vscode
+
+# Shuttle Configuration
+.shuttle-storage
+Secrets*.toml
+
+# Build artifacts
+target
+
+# Site dist folder
+dist
+site/dist

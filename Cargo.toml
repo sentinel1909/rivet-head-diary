@@ -1,0 +1,10 @@
+# rivet-head-diary workspace configuration
+[workspace]
+resolver = "2"
+
+members = [
+  "api",
+  "site",
+]
+
+default-members = [ "api" ]

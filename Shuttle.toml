@@ -1,0 +1,3 @@
+# Shuttle configuration for the rivet-head-diary
+name = "rivet-head-diary"
+assets = ["dist/*"]
