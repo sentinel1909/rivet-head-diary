@@ -68,13 +68,14 @@ pub async fn authorize(
 }
 
 // function to set up the tera index template
-fn diary_template() -> String {
-    let context = Context::new();
+fn diary_template(msg: String) -> String {
+    let mut context = Context::new();
+    context.insert("message", &msg);
     compile_diary_template().expect("Unable to compile template").render("index.html", &context).expect("Unable to render index template")
 }
 
 // handler to allow access into protected areas
-pub async fn protected(_claims: Claims) -> impl IntoResponse {
-     // format!("Welcome to the protected area, {}!", claims.username)
-     Html(diary_template())
+pub async fn protected(claims: Claims) -> impl IntoResponse {
+     let msg = format!("Welcome to the protected area, {}!", claims.username);
+     Html(diary_template(msg))
 }

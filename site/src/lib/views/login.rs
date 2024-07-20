@@ -2,10 +2,9 @@
 
 // dependencies
 use crate::components::input::InputField;
-use gloo_net::http::{Headers, Request};
+use gloo_net::http::Request;
 use serde::{Deserialize, Serialize};
 use serde_json;
-use wasm_bindgen::JsValue;
 use web_sys::HtmlInputElement;
 use yew::{Callback, function_component, Html, html, Properties, SubmitEvent, use_node_ref, use_state};
 
@@ -17,20 +16,19 @@ pub struct LoginForm {
 }
 
 // a struct type to represent the login response
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 struct LoginResponse {
     access_token: String,
 }
 
 #[function_component(Login)]
 pub fn login() -> Html {
-    let login_form = use_state(|| {LoginForm::default()});
+    let _login_form = use_state(|| {LoginForm::default()});
 
     let client_id_ref = use_node_ref();
     let client_secret_ref = use_node_ref();
 
     let onsubmit = {
-        let _login_form = login_form.clone();
         let client_id_ref = client_id_ref.clone();
         let client_secret_ref = client_secret_ref.clone();
 
@@ -45,42 +43,30 @@ pub fn login() -> Html {
                 client_secret,
             };
 
-            log::info!("Login form {:?}", &login_form.clone());
-
             wasm_bindgen_futures::spawn_local(async move {
                 let response = Request::post("/api/login")
-                    .headers({
-                        let headers = Headers::new();
-                        headers.set("Content-Type", "application/json");
-                        headers
-                    })
-                    .body(JsValue::from(
-                        serde_json::to_string(&login_form).unwrap(),
-                    ))
-                    .unwrap()
+                    .header("Content-Type", "application/json")
+                    .body(serde_json::to_string(&login_form).unwrap()).expect("Invalid request body.")
                     .send()
                     .await
                     .unwrap();
-
+                
                 if response.status() == 200 {
-                    let login_response: LoginResponse = response.json().await.unwrap();
-                    web_sys::window()
-                        .unwrap()
-                        .local_storage()
-                        .unwrap()
-                        .expect("Unable to access local storage.")
-                        .set_item("access_token", &login_response.access_token)
-                        .unwrap();
-                    web_sys::window()
-                        .unwrap()
-                        .location()
-                        .set_href("/api/protected")
-                        .unwrap();
+                    let response_body = response.json::<LoginResponse>().await.unwrap();
+                    log::info!("Authorized");
+                    wasm_bindgen_futures::spawn_local(async move {
+                        let response = Request::get("/api/protected")
+                            .header("Authorization", &format!("Bearer {}", response_body.access_token))
+                            .send()
+                            .await
+                            .unwrap();
+                    let response_body = response.text().await.unwrap();
+                    log::info!("{}", response_body);
+                    });
                 } else {
-                    log::info!("Unathorized");
+                    log::info!("Unauthorized, invalid client id and client secret")
                 }
-            })
-
+            });
         })
     };
     

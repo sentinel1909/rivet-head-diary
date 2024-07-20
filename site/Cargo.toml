@@ -1,7 +1,7 @@
 # crusty-rustacean site configuration
 [package]
 name = "rivet-head-diary-site"
-version = "0.6.0"
+version = "0.7.0"
 edition = "2021"
 publish = false
 

@@ -69,7 +69,7 @@ impl DatabaseSettings {
         DatabaseSettings {
             username: "postgres".into(),
             password: "postgres".into(),
-            port: 24155,
+            port: 22212,
             host: "localhost".into(),
             // Create a new database name for each test
             database_name: Uuid::new_v4().to_string(),
