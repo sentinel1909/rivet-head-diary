@@ -16,7 +16,7 @@ async fn shuttle_main(
 ) -> Result<ApiService, Error> {
     // initialize tracing
     let subscriber = get_subscriber(
-        "crusty-rustacean-api".into(),
+        "rivet-head-diary-api".into(),
         "info".into(),
         std::io::stdout,
     );
