@@ -2,7 +2,7 @@
 // src/lib/components/navigation.rs
 
 // dependencies
-use crate::views::{Blog, Home, Login, Root};
+use crate::views::{Blog, Diary, Home, Login, Root, Unauthorized};
 use yew::function_component;
 use yew::{html, Html};
 use yew_router::prelude::*;
@@ -16,6 +16,10 @@ pub enum Route {
     Login,
     #[at("/blog")]
     Blog,
+    #[at("/diary")]
+    Diary,
+    #[at("/unauthorized")]
+    Unauthorized,
 }
 
 // function to switch between the site routes
@@ -24,6 +28,8 @@ pub fn switch(routes: Route) -> Html {
         Route::Home => html! { <Root> <Home /> </Root> },
         Route::Login => html! { <Root> <Login /> </Root> },
         Route::Blog => html! { <Root> <Blog /> </Root> },
+        Route::Diary => html! { <Root> <Diary /> </Root> }, 
+        Route::Unauthorized => html! { <Root> <Unauthorized /> </Root>}
     }
 }
 

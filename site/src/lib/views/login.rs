@@ -54,25 +54,17 @@ pub fn login() -> Html {
                 if response.status() == 200 {
                     let response_body = response.json::<LoginResponse>().await.unwrap();
                     wasm_bindgen_futures::spawn_local(async move {
-                        let response = Request::get("/api/protected")
+                        let _response = Request::get("/api/protected")
                             .header("Authorization", &format!("Bearer {}", response_body.access_token))
                             .send()
                             .await
                             .unwrap();
-                    let response_body = response.text().await.unwrap();
-                    log::info!("Authorized");
-                    log::info!("{}", response_body);
-
                     if let Some(window) = window() {
                         window.location().set_href("/diary").expect("failed to redirect")
                     }
                     });
-                } else {
-                    log::info!("Unauthorized, invalid client id and client secret");
-
-                    if let Some(window) = window() {
-                        window.location().set_href("/login").expect("failed to redirect")
-                    }
+                } else if let Some(window) = window() {
+                        window.location().set_href("/unauthorized").expect("failed to redirect")
                 }
             });
         })

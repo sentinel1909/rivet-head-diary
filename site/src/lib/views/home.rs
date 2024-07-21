@@ -55,7 +55,7 @@ pub fn home() -> Html {
                     <section>
                         <h2>{ "Welcome!" }</h2>
                         <article>
-                            <p>{"Got API response: "}{data}{"200 OK"}</p>
+                            <p>{"Received API response: "}{data}{"200 OK"}</p>
                         </article>
                     </section>
                 </>

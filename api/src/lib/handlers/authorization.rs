@@ -36,6 +36,10 @@ pub struct AuthPayLoad {
 }
 
 // handler to authorize
+#[tracing::instrument(
+    skip(app_state, payload),
+    fields(client_id=tracing::field::Empty, client_secret=tracing::field::Empty)
+)]
 pub async fn authorize(
     State(app_state): State<AppState>,
     Json(payload): Json<AuthPayLoad>,
