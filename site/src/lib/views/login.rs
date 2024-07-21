@@ -5,7 +5,7 @@ use crate::components::input::InputField;
 use gloo_net::http::Request;
 use serde::{Deserialize, Serialize};
 use serde_json;
-use web_sys::HtmlInputElement;
+use web_sys::{HtmlInputElement, window};
 use yew::{Callback, function_component, Html, html, Properties, SubmitEvent, use_node_ref, use_state};
 
 // a struct type to represent the login form
@@ -53,7 +53,6 @@ pub fn login() -> Html {
                 
                 if response.status() == 200 {
                     let response_body = response.json::<LoginResponse>().await.unwrap();
-                    log::info!("Authorized");
                     wasm_bindgen_futures::spawn_local(async move {
                         let response = Request::get("/api/protected")
                             .header("Authorization", &format!("Bearer {}", response_body.access_token))
@@ -61,10 +60,19 @@ pub fn login() -> Html {
                             .await
                             .unwrap();
                     let response_body = response.text().await.unwrap();
+                    log::info!("Authorized");
                     log::info!("{}", response_body);
+
+                    if let Some(window) = window() {
+                        window.location().set_href("/diary").expect("failed to redirect")
+                    }
                     });
                 } else {
-                    log::info!("Unauthorized, invalid client id and client secret")
+                    log::info!("Unauthorized, invalid client id and client secret");
+
+                    if let Some(window) = window() {
+                        window.location().set_href("/login").expect("failed to redirect")
+                    }
                 }
             });
         })

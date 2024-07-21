@@ -3,17 +3,14 @@
 
 // dependencies
 use crate::authentication::{Claims, KEYS};
-use crate::renderer::compile_diary_template;
 use crate::errors::AuthError;
 use crate::startup::AppState;
 use axum::Json;
 use axum::extract::State;
-use axum::response::{Html, IntoResponse};
 use chrono::Utc;
 use jsonwebtoken::{encode, Header};
 use secrecy::ExposeSecret;
 use serde::{Deserialize, Serialize};
-use tera::Context;
 
 // struct type to represent the body of our authorization
 #[derive(Debug, Serialize)]
@@ -65,17 +62,4 @@ pub async fn authorize(
         .map_err(|_| AuthError::TokenCreation)?;
 
     Ok(Json(AuthBody::new(token)))
-}
-
-// function to set up the tera index template
-fn diary_template(msg: String) -> String {
-    let mut context = Context::new();
-    context.insert("message", &msg);
-    compile_diary_template().expect("Unable to compile template").render("index.html", &context).expect("Unable to render index template")
-}
-
-// handler to allow access into protected areas
-pub async fn protected(claims: Claims) -> impl IntoResponse {
-     let msg = format!("Welcome to the protected area, {}!", claims.username);
-     Html(diary_template(msg))
 }

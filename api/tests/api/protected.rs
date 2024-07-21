@@ -3,7 +3,7 @@
 // dependencies
 use crate::helpers::spawn_app;
 use serde::Deserialize;
-use serde_json::json;
+use serde_json::{json, Value};
 
 #[derive(Deserialize)]
 struct AuthResponse {
@@ -37,10 +37,10 @@ async fn protected_route_works() {
     let status = response_protected.status().as_u16();
     assert_eq!(status, 200);
 
-    let response_protected_body = response_protected
-        .text()
+    let response_protected_body: Value = response_protected
+        .json()
         .await
         .expect("Unable to retrieve the response text");
-    let expected_response = "Welcome to the protected area, test_id!";
+    let expected_response: Value = serde_json::from_str(r#"{"status":"Authorized","msg":"Welcome to the protected area test_id"}"#).unwrap();
     assert_eq!(response_protected_body, expected_response);
 }
