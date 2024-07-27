@@ -21,8 +21,8 @@ struct LoginResponse {
     access_token: String,
 }
 
-#[function_component(Login)]
-pub fn login() -> Html {
+#[function_component(Admin)]
+pub fn admin() -> Html {
     let _login_form = use_state(|| {LoginForm::default()});
 
     let client_id_ref = use_node_ref();
@@ -44,28 +44,7 @@ pub fn login() -> Html {
             };
 
             wasm_bindgen_futures::spawn_local(async move {
-                let response = Request::post("/api/login")
-                    .header("Content-Type", "application/json")
-                    .body(serde_json::to_string(&login_form).unwrap()).expect("Invalid request body.")
-                    .send()
-                    .await
-                    .unwrap();
-                
-                if response.status() == 200 {
-                    let response_body = response.json::<LoginResponse>().await.unwrap();
-                    wasm_bindgen_futures::spawn_local(async move {
-                        let _response = Request::get("/api/protected")
-                            .header("Authorization", &format!("Bearer {}", response_body.access_token))
-                            .send()
-                            .await
-                            .unwrap();
-                    if let Some(window) = window() {
-                        window.location().set_href("/diary").expect("failed to redirect")
-                    }
-                    });
-                } else if let Some(window) = window() {
-                        window.location().set_href("/unauthorized").expect("failed to redirect")
-                }
+                todo!();
             });
         })
     };

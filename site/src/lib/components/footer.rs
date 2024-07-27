@@ -12,7 +12,7 @@ pub fn footer() -> Html {
       <footer>
         <section>
           <article>
-            <p>{ "Site built with Yew and Axum, hosted on Shuttle" }</p>
+            <p>{ "Site built with Rocket and Yew | Hosted on Shuttle" }</p>
             <p>{ "\u{00A9} " } { "Jeffery D. Mitchell" }</p>
           </article>
         </section>

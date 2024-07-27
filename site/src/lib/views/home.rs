@@ -37,7 +37,6 @@ pub fn home() -> Html {
                     data.set(Some(result));
                 });
             }
-
             || {}
         });
     }
@@ -46,7 +45,14 @@ pub fn home() -> Html {
     match data.as_ref() {
         None => {
             html! {
-                <div>{"No response from the API"}</div>
+                <>
+                    <section>
+                        <h2>{ "Welcome!" }</h2>
+                        <article>
+                            <p>{"No response from the API."}</p>
+                        </article>
+                    </section>
+                </>
             }
         }
         Some(Ok(data)) => {
@@ -63,7 +69,14 @@ pub fn home() -> Html {
         }
         Some(Err(err)) => {
             html! {
-                <div>{"Error requesting data from the API: "}{err}</div>
+                <>
+                    <section>
+                        <h2>{ "Welcome!" }</h2>
+                        <article>
+                            <p>{"Error requesting data from the API: "}{err}</p>
+                        </article>
+                    </section>
+                </>
             }
         }
     }
