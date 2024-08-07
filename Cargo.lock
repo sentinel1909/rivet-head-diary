@@ -1639,7 +1639,7 @@ checksum = "7a66a03ae7c801facd77a29370b4faec201768915ac14a721ba36f20bc9c209b"
 
 [[package]]
 name = "rivet-head-diary"
-version = "0.9.0"
+version = "0.9.1"
 dependencies = [
  "axum 0.7.5",
  "shuttle-axum",
@@ -1649,7 +1649,7 @@ dependencies = [
 
 [[package]]
 name = "rivet-head-diary-site"
-version = "0.8.0"
+version = "0.9.1"
 dependencies = [
  "console_error_panic_hook",
  "gloo-net 0.5.0",

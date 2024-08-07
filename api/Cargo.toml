@@ -2,7 +2,7 @@
 [package]
 name = "rivet-head-diary"
 authors = ["Jeffery D. Mitchell", "<sentinel1909@jeff-mitchell.dev>"]
-version = "0.9.0"
+version = "0.9.1"
 edition = "2021"
 description = "A full stack Rust app, front in Yew, back in Axum, for recording my music listening habits"
 readme = "README.md"
