@@ -1,20 +1,17 @@
 # crusty-rustacean api configuration
 [package]
-name = "rivet-head-diary-api"
-version = "0.8.0"
+name = "rivet-head-diary"
+authors = ["Jeffery D. Mitchell", "<sentinel1909@jeff-mitchell.dev>"]
+version = "0.9.0"
 edition = "2021"
+description = "A full stack Rust app, front in Yew, back in Axum, for recording my music listening habits"
+readme = "README.md"
+repository = "https://github.com/sentinel1909/rivet-head-diary.git"
+license = "MIT"
 publish = false
 
-# binary
-[[bin]]
-name = "rivet-head-diary-api"
-path = "src/bin/main.rs"
-
-[lib]
-name = "rivet_head_diary_api_lib"
-path = "src/lib/lib.rs"
-
 [dependencies]
-rocket = "0.5.1"
-shuttle-rocket = "0.47.0"
+axum = "0.7.5"
+shuttle-axum = "0.47.0"
 shuttle-runtime = "0.47.0"
+tower-http = { version = "0.5.2", features = [ "fs"] }
